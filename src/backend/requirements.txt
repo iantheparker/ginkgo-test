@@ -1,0 +1,5 @@
+Flask
+Flask-Cors
+biopython
+celery
+redis

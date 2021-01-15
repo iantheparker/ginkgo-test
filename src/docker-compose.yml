@@ -1,0 +1,47 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 9090:80
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile.dev
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+    depends_on:
+      - redis
+    links:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
+  worker:
+    build:
+      context: ./backend/
+    hostname: worker
+    entrypoint: celery
+    command: -A task worker --loglevel=info -Q worker
+    depends_on:
+      - redis
+    links:
+      - redis
+    volumes:
+      - ./backend:/usr/src/app
