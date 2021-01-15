@@ -18,20 +18,6 @@ def homepage():
     )
 
 
-@api.route("/search", methods=["POST"])
-def search():
-    if request.method == "POST":
-        search_term = request.form["q"]
-
-        result = search_protein_list(search_term)
-        print(result)
-
-        return (
-            jsonify({"result": result}),
-            200,
-        )
-
-
 @api.route("/searchtask", methods=["POST"])
 def search_task():
     if request.method == "POST":
@@ -52,7 +38,7 @@ def search_task():
         )
 
 
-@api.route("/searchasync", methods=["POST"])
+@api.route("/search", methods=["POST"])
 def search_async():
     if request.method == "POST":
         search_term = request.form["q"]

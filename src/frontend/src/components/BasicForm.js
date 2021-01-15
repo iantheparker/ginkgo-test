@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BasicForm() {
-  const url = "api/searchasync";
+  const url = "api/search";
   const classes = useStyles();
   const [identity, setIdentity] = useState({ search: "" });
   const [success, setSuccess] = useState(undefined);
